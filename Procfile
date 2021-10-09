@@ -1,1 +1,1 @@
-web: java -jar DiscordBot.jar
+web: java $JAVA_OPTS -cp target/classes:target/dependency/* DiscordBot.jar
