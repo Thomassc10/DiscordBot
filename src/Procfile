@@ -1,1 +1,1 @@
-web: java -jar target/DiscordBot-1.0.jar
+web: java -jar /tmp/build_1a5f3eb7/target/DiscordBot-1.0.jar
