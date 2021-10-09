@@ -1,1 +1,1 @@
-web: java -jar target\DiscordBot.jar
+web: java -jar target/DiscordBot.jar
