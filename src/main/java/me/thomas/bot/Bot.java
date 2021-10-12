@@ -27,7 +27,8 @@ public class Bot {
         builder.setHelpWord("helpme");
         builder.setActivity(Activity.listening("DJ Juninho Portugal"));
         builder.addCommands(new HelpCommand(), new PlayCommand(), new ClearMessages(), new QueueCommand(),
-                new JoinCommand(), new LeaveCommand(), new SongCommand(), new StopCommand(), new SkipCommand());
+                new JoinCommand(), new LeaveCommand(), new SongCommand(), new StopCommand(), new SkipCommand(),
+                new ShuffleCommand(), new ClearCommand());
 
         EventWaiter waiter = new EventWaiter();
         CommandClient client = builder.build();

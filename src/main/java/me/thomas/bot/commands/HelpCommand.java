@@ -20,7 +20,7 @@ public class HelpCommand extends Command {
         builder.setTitle("Aleijados Bot");
         builder.setDescription("Information about the bot");
         builder.addField("Prefix: -", "", false);
-        builder.addField("Commands", "**help**\n**clean**\n**join/leave**\n**play**\n**stop**\n**skip**\n**queue**\n**song**", false);
+        builder.addField("Commands", "**help**\n**clean**\n**join/leave**\n**play**\n**stop**\n**skip**\n**queue**\n**song**\n**shuffle**\n**clear**", false);
         builder.setColor(0xf55742);
         builder.setFooter("Created by Memé", "https://cdn.discordapp.com/attachments/365949879723491328/829724901119361024/Profile_Picture.png");
         channel.sendMessage(builder.build()).queue();
