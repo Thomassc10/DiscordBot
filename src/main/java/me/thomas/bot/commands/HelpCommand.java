@@ -1,4 +1,4 @@
-package commands;
+package me.thomas.bot.commands;
 
 
 import com.jagrosh.jdautilities.command.Command;

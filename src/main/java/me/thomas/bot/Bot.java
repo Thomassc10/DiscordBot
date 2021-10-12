@@ -1,10 +1,12 @@
+package me.thomas.bot;
+
 import com.jagrosh.jdautilities.command.CommandClient;
 import com.jagrosh.jdautilities.command.CommandClientBuilder;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
-import commands.ClearMessages;
-import commands.HelpCommand;
-import commands.music.*;
-import events.MemberJoin;
+import me.thomas.bot.commands.ClearMessages;
+import me.thomas.bot.commands.HelpCommand;
+import me.thomas.bot.events.MemberJoin;
+import me.thomas.bot.commands.music.*;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
@@ -14,9 +16,10 @@ import javax.security.auth.login.LoginException;
 public class Bot {
 
     private static String token = "ODI4NjcxNzM4MTQxMjEyNjgz.YGs-sg.bZc5WAY5Txyfdg9GhHinHhCGxn0";
+    private static JDA jda;
 
     public static void main(String[] args) throws LoginException, InterruptedException {
-        JDA jda = JDABuilder.createDefault(token).build();
+        jda = JDABuilder.createDefault(token).build();
 
         CommandClientBuilder builder = new CommandClientBuilder();
         builder.setPrefix("-");
@@ -34,6 +37,11 @@ public class Bot {
         jda.addEventListener(new MemberJoin());
 
         jda.awaitReady();
+        System.out.println("Bot is online!");
+    }
+
+    public static JDA getJda(){
+        return jda;
     }
 
     /*event.getMember().getUser().openPrivateChannel().flatMap(privateChannel ->

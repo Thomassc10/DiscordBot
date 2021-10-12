@@ -1,4 +1,4 @@
-package musicutils;
+package me.thomas.bot.musicutils;
 
 import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
@@ -10,13 +10,10 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackInfo;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.requests.restaction.MessageAction;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 public class PlayerManager {
@@ -24,9 +21,13 @@ public class PlayerManager {
     private static PlayerManager instance;
     private Map<Long, GuildMusicManager> musicManagers;
     public AudioPlayerManager audioPlayerManager;
+    public Map<String, Long> messageMap;
+    public Map<String, Long> channelMap;
     public PlayerManager(){
         instance = this;
         musicManagers = new HashMap<>();
+        messageMap = new HashMap<>();
+        channelMap = new HashMap<>();
         audioPlayerManager = new DefaultAudioPlayerManager();
 
         AudioSourceManagers.registerRemoteSources(audioPlayerManager);
@@ -54,23 +55,47 @@ public class PlayerManager {
         });
     }
 
+    public void putMapValues(TextChannel channel){
+        Timer timer = new Timer();
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                messageMap.put("playing", channel.getLatestMessageIdLong());
+                channelMap.put("playing", channel.getIdLong());
+            }
+        };
+        timer.schedule(task, 500);
+    }
+
+    public void sendQueuedEmbed(TextChannel channel, AudioTrack audioTrack){
+        EmbedBuilder builder = new EmbedBuilder();
+        String uri = audioTrack.getInfo().uri;
+        builder.setColor(0xf55742);
+        builder.setDescription("Queued [" + audioTrack.getInfo().title + "](" + uri + ")");
+        channel.sendMessage(builder.build()).queue();
+        builder.clear();
+    }
+
+    public void sendPlayingEmbed(TextChannel channel, AudioTrack audioTrack){
+        EmbedBuilder builder = new EmbedBuilder();
+        String uri = audioTrack.getInfo().uri;
+        builder.setColor(0xf55742);
+        builder.setTitle("Now playing");
+        builder.setDescription("[" + audioTrack.getInfo().title + "](" + uri + ")");
+        channel.sendMessage(builder.build()).queue();
+        builder.clear();
+        putMapValues(channel);
+    }
+
     public void loadAndPlay(TextChannel channel, String url){
         GuildMusicManager musicManager = getMusicManager(channel.getGuild());
 
         audioPlayerManager.loadItemOrdered(musicManager, url, new AudioLoadResultHandler() {
             @Override
             public void trackLoaded(AudioTrack audioTrack) {
-                EmbedBuilder builder = new EmbedBuilder();
-                String uri = audioTrack.getInfo().uri;
-                builder.setColor(0xf55742);
-                if (musicManager.audioPlayer.getPlayingTrack() == null){
-                    builder.setTitle("Now playing");
-                    builder.setDescription("[" + audioTrack.getInfo().title + "](" + uri + ")");
-                }else builder.setDescription("Queued [" + audioTrack.getInfo().title + "](" + uri + ")");
-                MessageEmbed embed = builder.build();
-
-                channel.sendMessageEmbeds(embed).queue();
-                builder.clear();
+                if (musicManager.audioPlayer.getPlayingTrack() == null) {
+                    sendPlayingEmbed(channel, audioTrack);
+                }else sendQueuedEmbed(channel, audioTrack);
                 musicManager.trackScheduler.queue(audioTrack);
             }
 
@@ -80,19 +105,9 @@ public class PlayerManager {
                 AudioTrack audioTrack;
                 if (audioPlaylist.isSearchResult()) {
                     audioTrack = trackList.get(0);
-
-                    EmbedBuilder builder = new EmbedBuilder();
-                    String uri = audioTrack.getInfo().uri;
-                    builder.setColor(0xf55742);
-                    if (musicManager.audioPlayer.getPlayingTrack() == null){
-                        builder.setTitle("Now playing");
-                        builder.setDescription("[" + audioTrack.getInfo().title + "](" + uri + ")");
-                    }
-                    if (musicManager.audioPlayer.getPlayingTrack() != null)
-                    builder.setDescription("Queued [" + audioTrack.getInfo().title + "](" + uri + ")");
-
-                    channel.sendMessageEmbeds(builder.build()).queue();
-                    builder.clear();
+                    if (musicManager.audioPlayer.getPlayingTrack() == null) {
+                        sendPlayingEmbed(channel, audioTrack);
+                    }else sendQueuedEmbed(channel, audioTrack);
                     musicManager.trackScheduler.queue(audioTrack);
                 }else{
                     int trackCount = Math.min(trackList.size(), 20);

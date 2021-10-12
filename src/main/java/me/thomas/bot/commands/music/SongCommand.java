@@ -1,9 +1,9 @@
-package commands.music;
+package me.thomas.bot.commands.music;
 
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
-import musicutils.GuildMusicManager;
-import musicutils.PlayerManager;
+import me.thomas.bot.musicutils.GuildMusicManager;
+import me.thomas.bot.musicutils.PlayerManager;
 
 public class SongCommand extends Command {
 

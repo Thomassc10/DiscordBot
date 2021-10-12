@@ -1,10 +1,10 @@
-package commands.music;
+package me.thomas.bot.commands.music;
 
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
-import musicutils.GuildMusicManager;
-import musicutils.PlayerManager;
+import me.thomas.bot.musicutils.GuildMusicManager;
+import me.thomas.bot.musicutils.PlayerManager;
 import net.dv8tion.jda.api.entities.TextChannel;
 
 public class SkipCommand extends Command {
@@ -26,6 +26,6 @@ public class SkipCommand extends Command {
             return;
         }
         musicManager.trackScheduler.nextTrack();
-        channel.sendMessage("Skipped the current track!").queue();
+        event.getMessage().addReaction("U+1F44C").queue();
     }
 }
