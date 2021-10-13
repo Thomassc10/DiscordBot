@@ -1,1 +1,1 @@
-web: java -jar target/classes/:target/dependency/* me.thomas.bot.Bot
+web: java -cp target/classes/:target/dependency/* me.thomas.bot.Bot
