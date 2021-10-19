@@ -1,2 +1,1 @@
-web: java $JAVA_OPTS -classpath target/classes/:target/dependency/* me.thomas.bot.Bot
--Dserver.port=$PORT
+web: java $JAVA_OPTS -Dserver.port=$PORT -classpath target/classes/:target/dependency/* me.thomas.bot.Bot
