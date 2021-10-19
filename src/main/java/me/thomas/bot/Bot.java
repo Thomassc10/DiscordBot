@@ -15,6 +15,7 @@ import javax.security.auth.login.LoginException;
 
 public class Bot {
 
+    //Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process
     private static String token = "ODI4NjcxNzM4MTQxMjEyNjgz.YGs-sg.bZc5WAY5Txyfdg9GhHinHhCGxn0";
     private static JDA jda;
 
