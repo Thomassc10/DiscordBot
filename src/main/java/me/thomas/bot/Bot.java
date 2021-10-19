@@ -25,7 +25,7 @@ public class Bot {
                 GatewayIntent.DIRECT_MESSAGE_TYPING, GatewayIntent.GUILD_INVITES,
                 GatewayIntent.GUILD_BANS, GatewayIntent.GUILD_PRESENCES,
                 GatewayIntent.DIRECT_MESSAGES).build();
-
+        System.getenv("PORT");
         CommandClientBuilder builder = new CommandClientBuilder();
         builder.setPrefix("-");
         builder.setOwnerId("340660370656198657");
