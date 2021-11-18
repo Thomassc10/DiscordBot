@@ -70,7 +70,7 @@ public class PlayerManager {
     public void sendQueuedEmbed(TextChannel channel, AudioTrack audioTrack){
         EmbedBuilder builder = new EmbedBuilder();
         String uri = audioTrack.getInfo().uri;
-        builder.setColor(0xf55742);
+        builder.setColor(10181046);
         builder.setDescription("Queued [" + audioTrack.getInfo().title + "](" + uri + ")");
         channel.sendMessage(builder.build()).queue();
         builder.clear();
@@ -79,7 +79,7 @@ public class PlayerManager {
     public void sendPlayingEmbed(TextChannel channel, AudioTrack audioTrack){
         EmbedBuilder builder = new EmbedBuilder();
         String uri = audioTrack.getInfo().uri;
-        builder.setColor(0xf55742);
+        builder.setColor(10181046);
         builder.setTitle("Now playing");
         builder.setDescription("[" + audioTrack.getInfo().title + "](" + uri + ")");
         channel.sendMessage(builder.build()).queue();
@@ -87,7 +87,7 @@ public class PlayerManager {
         putMapValues(channel);
     }
 
-    public void loadAndPlay(TextChannel channel, String url){
+    public void loadAndPlay(TextChannel channel, String url, boolean isNext){
         GuildMusicManager musicManager = getMusicManager(channel.getGuild());
 
         audioPlayerManager.loadItemOrdered(musicManager, url, new AudioLoadResultHandler() {
@@ -96,7 +96,9 @@ public class PlayerManager {
                 if (musicManager.audioPlayer.getPlayingTrack() == null) {
                     sendPlayingEmbed(channel, audioTrack);
                 }else sendQueuedEmbed(channel, audioTrack);
-                musicManager.trackScheduler.queue(audioTrack);
+                if (!isNext) {
+                    musicManager.trackScheduler.queue(audioTrack);
+                }else musicManager.trackScheduler.queueFirst(audioTrack);
             }
 
             @Override
@@ -108,7 +110,9 @@ public class PlayerManager {
                     if (musicManager.audioPlayer.getPlayingTrack() == null) {
                         sendPlayingEmbed(channel, audioTrack);
                     }else sendQueuedEmbed(channel, audioTrack);
-                    musicManager.trackScheduler.queue(audioTrack);
+                    if (!isNext) {
+                        musicManager.trackScheduler.queue(audioTrack);
+                    }else musicManager.trackScheduler.queueFirst(audioTrack);
                 }else{
                     int trackCount = Math.min(trackList.size(), 20);
                     MessageAction messageAction = channel.sendMessage("**Added to queue**\n");
@@ -127,7 +131,9 @@ public class PlayerManager {
                     }
                     for (int i = 0; i < trackList.size(); i++){
                         audioTrack = trackList.get(i);
-                        musicManager.trackScheduler.queue(audioTrack);
+                        if (!isNext) {
+                            musicManager.trackScheduler.queue(audioTrack);
+                        }else musicManager.trackScheduler.queueFirst(audioTrack);
                     }
                     if (trackList.size() > trackCount){
                         messageAction.append("And `").append(String.valueOf(trackList.size() - trackCount))

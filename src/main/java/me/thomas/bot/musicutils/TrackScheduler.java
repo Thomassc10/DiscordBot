@@ -7,6 +7,9 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason;
 import me.thomas.bot.Bot;
 import net.dv8tion.jda.api.entities.TextChannel;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
 
@@ -25,6 +28,15 @@ public class TrackScheduler extends AudioEventAdapter {
         }
     }
 
+    public void queueFirst(AudioTrack track){
+        List<AudioTrack> list = new ArrayList<>(queue);
+        queue.clear();
+        queue.offer(track);
+        for (AudioTrack audioTrack : list){
+            queue.offer(audioTrack);
+        }
+    }
+
     public void nextTrack(){
         this.player.startTrack(this.queue.poll(), false);
     }
@@ -39,6 +51,7 @@ public class TrackScheduler extends AudioEventAdapter {
         Long messageId = playerManager.messageMap.get("playing");
         TextChannel channel = Bot.getJda().getTextChannelById(channelId);
         channel.purgeMessagesById(messageId);
-        playerManager.sendPlayingEmbed(channel, player.getPlayingTrack());
+        if (player.getPlayingTrack() != null)
+            playerManager.sendPlayingEmbed(channel, player.getPlayingTrack());
     }
 }

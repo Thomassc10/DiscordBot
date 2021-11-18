@@ -12,6 +12,11 @@
       <option name="url" value="https://m2.dv8tion.net/releases" />
     </remote-repository>
     <remote-repository>
+      <option name="id" value="jitpack.io" />
+      <option name="name" value="jitpack.io" />
+      <option name="url" value="https://jitpack.io" />
+    </remote-repository>
+    <remote-repository>
       <option name="id" value="com.springsource.repository.bundles.release" />
       <option name="name" value="SpringSource Enterprise Bundle Repository - SpringSource Bundle Releases" />
       <option name="url" value="http://repository.springsource.com/maven/bundles/release" />

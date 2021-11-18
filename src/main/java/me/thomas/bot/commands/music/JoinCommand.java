@@ -33,5 +33,7 @@ public class JoinCommand extends Command {
             audioManager.setSelfDeafened(true);
         if (!audioManager.isConnected())
             audioManager.openAudioConnection(voiceChannel);
+
+        event.getMessage().addReaction("U+1F44C").queue();
     }
 }

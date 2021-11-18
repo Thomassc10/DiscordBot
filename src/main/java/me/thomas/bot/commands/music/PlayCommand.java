@@ -27,7 +27,7 @@ public class PlayCommand extends Command {
         TextChannel channel = (TextChannel) event.getChannel();
 
         if (message.length == 1){
-            channel.sendMessage("Usage: $play <music-name>").queue();
+            channel.sendMessage("Usage: -play <music-name>").queue();
             channel.purgeMessages(event.getMessage());
             return;
         }
@@ -41,13 +41,13 @@ public class PlayCommand extends Command {
         if (!audioManager.isConnected())
             audioManager.openAudioConnection(voiceChannel);
 
-        String link = String.join(" ", event.getMessage().getContentRaw().replace(message[0] + " ", ""));
+        String link = String.join(" ", event.getArgs());
 
         if (!isUrl(link)){
             link = "ytsearch:" + link;
         }
 
-        PlayerManager.getInstance().loadAndPlay(channel, link);
+        PlayerManager.getInstance().loadAndPlay(channel, link, false);
     }
 
     private boolean isUrl(String url){

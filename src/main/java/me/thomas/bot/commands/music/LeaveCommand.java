@@ -31,6 +31,6 @@ public class LeaveCommand extends Command {
         }
 
         audioManager.closeAudioConnection();
-        channel.purgeMessages(event.getMessage());
+        event.getMessage().addReaction("U+1F44B").queue();
     }
 }
