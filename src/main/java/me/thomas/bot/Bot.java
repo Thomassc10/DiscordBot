@@ -16,23 +16,14 @@ import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 
 import javax.security.auth.login.LoginException;
-import java.util.Scanner;
 
 public class Bot {
 
     private static JDA jda;
+    private static String token = "ODI4NjcxNzM4MTQxMjEyNjgz.YGs-sg.bZc5WAY5Txyfdg9GhHinHhCGxn0";
+    // test: "ODk2MDczMDI1MTYwNjM4NTc1.YWBzCQ.nmL1FZpn-O1jMiFXPo7ovjHK8_4"
 
     public static void main(String[] args) throws LoginException, InterruptedException {
-        String token = "";
-        String bot = "";
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Bot: ");
-        bot = scanner.next();
-        if (bot.equalsIgnoreCase("main"))
-            token = "ODI4NjcxNzM4MTQxMjEyNjgz.YGs-sg.bZc5WAY5Txyfdg9GhHinHhCGxn0";
-        else if (bot.equalsIgnoreCase("test"))
-            token = "ODk2MDczMDI1MTYwNjM4NTc1.YWBzCQ.nmL1FZpn-O1jMiFXPo7ovjHK8_4";
-
         jda = JDABuilder.createDefault(token).disableIntents(GatewayIntent.DIRECT_MESSAGE_REACTIONS,
                 GatewayIntent.DIRECT_MESSAGE_TYPING, GatewayIntent.GUILD_INVITES,
                 GatewayIntent.GUILD_BANS, GatewayIntent.GUILD_PRESENCES,

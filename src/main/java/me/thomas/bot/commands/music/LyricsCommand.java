@@ -3,8 +3,6 @@ package me.thomas.bot.commands.music;
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
 import com.jagrosh.jlyrics.LyricsClient;
-import com.typesafe.config.Config;
-import com.typesafe.config.ConfigFactory;
 import me.thomas.bot.musicutils.GuildMusicManager;
 import me.thomas.bot.musicutils.PlayerManager;
 import net.dv8tion.jda.api.EmbedBuilder;
