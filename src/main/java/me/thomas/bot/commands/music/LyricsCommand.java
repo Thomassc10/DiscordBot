@@ -28,7 +28,7 @@ public class LyricsCommand extends Command {
         LyricsClient client = new LyricsClient();
         client.getLyrics(title).thenAccept(lyrics -> {
             if (lyrics == null) {
-                channel.sendMessage("Error when trying to load the lyrics " + lyrics.getURL()).queue();
+                channel.sendMessage("Error while trying to load the lyrics " + lyrics.getURL()).queue();
                 return;
             }
 
@@ -36,17 +36,14 @@ public class LyricsCommand extends Command {
                     .setAuthor(lyrics.getAuthor())
                     .setColor(10181046)
                     .setTitle(lyrics.getTitle());
-            builder.setDescription(lyrics.getContent());
+            //builder.setDescription(lyrics.getContent());
 
-            /*if(lyrics.getContent().length()>15000)
-            {
+            if(lyrics.getContent().length() > 15000) {
                 channel.sendMessage("Lyrics for `" + title + "` found but likely not correct: " + lyrics.getURL()).queue();
             }
-            else if(lyrics.getContent().length()>2000)
-            {
+            else if(lyrics.getContent().length() > 2000) {
                 String content = lyrics.getContent().trim();
-                while(content.length() > 2000)
-                {
+                while(content.length() > 2000) {
                     int index = content.lastIndexOf("\n\n", 2000);
                     if(index == -1)
                         index = content.lastIndexOf("\n", 2000);
@@ -61,10 +58,10 @@ public class LyricsCommand extends Command {
                 channel.sendMessage(builder.setDescription(content).build()).queue();
                 event.getMessage().addReaction("U+1F44C").queue();
             }
-            else {*/
+            else {
                 channel.sendMessage(builder.build()).queue();
                 event.getMessage().addReaction("U+1F44C").queue();
-            //}
+            }
         });
     }
 }
